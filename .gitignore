@@ -1,12 +1,15 @@
-# secrets — never commit
+# raw secrets — never commit
 *.token
 .env
-secrets.*
+secrets.env
+secrets/*.txt
+secrets/plaintext*
 telegram_token.txt
+# but ALLOW the encrypted vault
+!secrets/vault.enc
 # python
 __pycache__/
 *.pyc
 .venv/
 # temp
-/tmp/
 *_sample.png
