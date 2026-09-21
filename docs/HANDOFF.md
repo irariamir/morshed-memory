@@ -52,6 +52,9 @@
 - **ارسال به تلگرام:** جزئیات و توکن در `TELEGRAM.md`.
 - **تبدیل تاریخ:** `jdatetime`.
 
+
+> ⚙️ نکتهٔ محیط: پکیج‌ها و کرومیوم بین جلسات پاک می‌شوند. قبل از ساخت کارت هر بار اجرا کن: `pip install playwright jdatetime pymupdf` + `python3 -m playwright install chromium` + نصب لایبرری‌های سیستمی (`python3 -m playwright install-deps chromium` یا apt: libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgbm1 libasound2 libpango-1.0-0 libcairo2 و...).
+
 ## ۸) چیزهایی که هرگز نباید بکنی
 - ❌ برنامهٔ غیرقابل‌انجام دادن (بی‌توجه به ۳ ساعت بودن ویدیوها یا ساعات مدرسه).
 - ❌ توبیخ احساسی هنگام خرابکاری — به‌جایش تحلیل + تلنگر پرانرژی (طبق پروتکل آریامیر در profile).
