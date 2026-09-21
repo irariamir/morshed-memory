@@ -106,6 +106,14 @@ Full budget/بودجه‌بندی stored in `uploads/ازمون.pdf`. Semester p
 - Generator: HTML+Kalameh font (embedded base64) → Playwright/chromium screenshot @2x.
 - Assets in /home/user/brand_assets/. Template style: brand_assets/BRAND.md.
 - هر روز کارت برنامه به‌صورت عکس با همین قالب ساخته و به کانال فرستاده می‌شود.
+- Reusable script: morshed-repo/scripts/make_card.py
+
+## GitHub Memory Repo
+- Local repo built & committed at /home/user/morshed-repo (25 files, git initialized).
+- Plan: NEW PUBLIC repo `morshed-memory`. Awaiting user's GitHub PAT to push.
+- Structure: README, docs/(HANDOFF, SYSTEM_PROMPT, TELEGRAM), memory/(student_profile, progress_log), plans/(+cards/), brand/(fonts+logos+BRAND.md), scripts/.
+- Purpose: portable permanent memory + full AI handoff via docs/HANDOFF.md.
+- Secrets NOT in repo (.gitignore). Each session: after new info, update memory files & commit/push.
 
 ## Weekly Plan
 | Day | Subject | Time Slot | Task |
