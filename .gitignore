@@ -1,0 +1,12 @@
+# secrets — never commit
+*.token
+.env
+secrets.*
+telegram_token.txt
+# python
+__pycache__/
+*.pyc
+.venv/
+# temp
+/tmp/
+*_sample.png

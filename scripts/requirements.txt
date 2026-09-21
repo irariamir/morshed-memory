@@ -1,0 +1,3 @@
+playwright>=1.40
+jdatetime>=4.0
+pymupdf>=1.23
