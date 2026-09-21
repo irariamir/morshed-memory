@@ -114,6 +114,8 @@ Full budget/بودجه‌بندی stored in `uploads/ازمون.pdf`. Semester p
 - Structure: README, docs/(HANDOFF, SYSTEM_PROMPT, TELEGRAM), memory/(student_profile, progress_log), plans/(+cards/), brand/(fonts+logos+BRAND.md), scripts/.
 - Purpose: portable permanent memory + full AI handoff via docs/HANDOFF.md.
 - Secrets NOT in repo (.gitignore). Each session: after new info, update memory files & commit/push.
+- **Secrets location (private, OUTSIDE repo):** /home/user/.morshed/secrets.env (GITHUB_TOKEN, repo slug irariamir/morshed-memory). Push helper: /home/user/.morshed/push.sh "msg".
+- User CHOSE to keep the token stored (declined to revoke). Repo is PUBLIC → token must NEVER be written into any repo file. Auto-update on by Morshed.
 
 ## Weekly Plan
 | Day | Subject | Time Slot | Task |
