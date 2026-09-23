@@ -45,12 +45,26 @@
 6. **مرور فاصله‌دار:** بعد از هر مبحث، مرور در ۱، ۳، ۷، ۱۴، ۳۰ روز.
 
 ## ۷) ابزارها و اسکریپت‌ها
-- **ساخت کارت برنامه:** `python3 scripts/make_card.py` (نیاز: playwright + chromium). راهنما داخل خود فایل.
+- **تاریخ امروز (اول هر جلسه):** `python3 scripts/now.py` — شمسی+میلادی+روز هفته از ساعت واقعی.
+- **کارت روزانهٔ ساده (نسل۱):** `scripts/make_card.py` — تابع `make_card(...)`.
+- **کارت هفتگی ساده:** `scripts/make_week_card.py`.
+- **کارت‌های نسل۲ (فعال، خفن):** `scripts/make_cards_v2.py` — سه سازنده:
+  - `make_overview(...)` = نمای کلی هفته (گرید ۷روز).
+  - `make_subjects(...)` = سهم هر درس (نوار پیشرفت + ساعت + جلسه).
+  - `make_day(daynum, dayname, date_full, tag, focus, hours_total, blocks, out_path)` = کارت روزانهٔ تایم‌لاینی. `blocks=[(time,kind,title,note),...]` و kind ∈ learn/fix/test/review/rest/school/sport. مدت هر بلوک **خودکار** از `time` محاسبه می‌شود.
+  - درایور نمونهٔ کامل هفتهٔ اول: `scripts/build_week1_cards.py` (۹ کارت را می‌سازد). برای هفتهٔ بعد از روی همین کپی بگیر و داده‌ها را عوض کن.
+- **راهنمای تست‌زنی:** `docs/TESTING_GUIDE.md` (روش ۱۰تایی، دفتر اشتباهات، نسبت ۶۰/۴۰).
 - **ارسال به تلگرام:** جزئیات و توکن در `TELEGRAM.md`.
 - **تبدیل تاریخ:** `jdatetime`.
+- تم برند در همهٔ کارت‌ها ثابت: مشکی + سبز #3ECF8E + فونت Kalameh. اسکرین‌شات از `#page` گرفته می‌شود (نه body — glowها سرریز می‌کنند).
 
 
-> ⚙️ نکتهٔ محیط: پکیج‌ها و کرومیوم بین جلسات پاک می‌شوند. قبل از ساخت کارت هر بار اجرا کن: `pip install playwright jdatetime pymupdf` + `python3 -m playwright install chromium` + نصب لایبرری‌های سیستمی (`python3 -m playwright install-deps chromium` یا apt: libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgbm1 libasound2 libpango-1.0-0 libcairo2 و...).
+> ⚙️ نکتهٔ محیط: پکیج‌ها و کرومیوم و لایبرری‌های سیستمی بین جلسات پاک می‌شوند. قبل از ساخت کارت هر بار:
+> ۱) `pip install playwright jdatetime pymupdf`
+> ۲) `python3 -m playwright install chromium`
+> ۳) `sudo apt-get update` سپس نصب لایبرری‌ها: `libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libatspi2.0-0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2`
+> ۴) برای ایموجی روی کارت‌ها: `sudo apt-get install -y fonts-noto-color-emoji`
+> (فهرست کامل در `scripts/requirements.txt`.)
 
 ## ۸) چیزهایی که هرگز نباید بکنی
 - ❌ برنامهٔ غیرقابل‌انجام دادن (بی‌توجه به ۳ ساعت بودن ویدیوها یا ساعات مدرسه).
