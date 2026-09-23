@@ -192,6 +192,40 @@ def make_subjects(title, sub, rows, total_line, out_path):
     return _render(_shell(inner, css), out_path, height=1080)
 
 # ============ کارت ۳-۹: برنامهٔ روزانه ============
+def _dur_label(timestr):
+    """از «06:00–06:20» یا «06:50–15:00» مدت را حساب و به فارسی برمی‌گرداند."""
+    import re
+    fa="۰۱۲۳۴۵۶۷۸۹"
+    def to_fa(s): return ''.join(fa[int(c)] if c.isdigit() else c for c in s)
+    m=re.findall(r'(\d{1,2}):(\d{2})', timestr)
+    if len(m)<2: return ""
+    (h1,m1),(h2,m2)=m[0],m[1]
+    mins=(int(h2)*60+int(m2))-(int(h1)*60+int(m1))
+    if mins<=0: return ""
+    if mins<60: return to_fa(str(mins))+" دقیقه"
+    h=mins//60; mm=mins%60
+    if mm==0: return to_fa(str(h))+" ساعت"
+    if mm==30: return to_fa(f"{h}.۵").replace('.','.')+" ساعت" if False else to_fa(str(h))+".۵ ساعت"
+    return to_fa(str(h))+" ساعت و "+to_fa(str(mm))+" دقیقه"
+
+def _sum_study_hours(blocks):
+    """جمع مدت بلوک‌های مطالعه (نه استراحت/مدرسه/ورزش) به‌صورت برچسب فارسی."""
+    import re
+    fa="۰۱۲۳۴۵۶۷۸۹"
+    total=0
+    for time,kind,title,note in blocks:
+        if kind in ("rest","school","sport"): continue
+        m=re.findall(r'(\d{1,2}):(\d{2})', time)
+        if len(m)<2: continue
+        (h1,m1),(h2,m2)=m[0],m[1]
+        d=(int(h2)*60+int(m2))-(int(h1)*60+int(m1))
+        if d>0: total+=d
+    h=total//60; mm=total%60
+    def to_fa(s): return ''.join(fa[int(c)] if c.isdigit() else c for c in s)
+    if mm==0: return to_fa(str(h))+" ساعت"
+    if mm==30: return to_fa(str(h))+".۵ ساعت"
+    return to_fa(str(h))+" ساعت و "+to_fa(str(mm))+" دقیقه"
+
 def make_day(daynum, dayname, date_full, tag, focus, hours_total, blocks, out_path):
     """blocks: list of (time, kind, title, note). kind in KIND keys."""
     css=f"""
@@ -210,8 +244,10 @@ def make_day(daynum, dayname, date_full, tag, focus, hours_total, blocks, out_pa
   border-radius:16px;padding:16px 22px;display:flex;align-items:center;flex-direction:row-reverse;gap:18px}}
 .card.rest{{background:{C['surface']};border-style:dashed;border-color:{C['faint']}}}
 .card.school{{background:rgba(255,255,255,.015);border-color:{C['faint']}}}
-.ctime{{width:150px;flex:none;text-align:center;direction:ltr;
-  font-size:20px;font-weight:800;color:{C['green']}}}
+.ctime{{width:160px;flex:none;display:flex;flex-direction:column;align-items:center;gap:5px;direction:ltr}}
+.ctime .clock{{font-size:20px;font-weight:800;color:{C['green']}}}
+.ctime .dur{{font-size:13px;font-weight:600;color:{C['muted']};background:rgba(255,255,255,.04);
+  border:1px solid {C['border']};border-radius:999px;padding:2px 10px;direction:rtl}}
 .cbadge{{width:44px;height:44px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px}}
 .cbody{{flex:1;text-align:right}}
 .ctitle{{font-size:22px;font-weight:700;color:{C['fg']};line-height:1.3}}
@@ -232,8 +268,10 @@ def make_day(daynum, dayname, date_full, tag, focus, hours_total, blocks, out_pa
         elif kind=="school": cls="card school"
         badge=f'<div class="cbadge" style="background:{col}22;color:{col}">{ic}</div>'
         note_html=f'<div class="cnote">{note}</div>' if note else ''
+        dur=_dur_label(time)
+        dur_html=f'<span class="dur">{dur}</span>' if dur else ''
         blk+=f"""<div class="blk"><div class="node" style="background:{col}"></div>
-          <div class="{cls}"><div class="ctime">{time}</div>{badge}
+          <div class="{cls}"><div class="ctime"><span class="clock">{time}</span>{dur_html}</div>{badge}
             <div class="cbody"><div class="ctitle">{title}</div>{note_html}</div></div></div>"""
     leg="".join(f'<span class="lg"><span style="color:{KIND[k][0]};font-size:12px">{KIND[k][1]}</span>{lbl}</span>'
                 for k,lbl in [("learn","یادگیری"),("fix","تثبیت"),("test","تست"),("review","مرور"),("rest","استراحت")])
